@@ -1,3 +1,7 @@
+global['window'] = global['window'] || {};
+global['document'] = global['document'] || {};
+global['navigator'] = global['navigator'] || { userAgent: 'node.js' };
+
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,

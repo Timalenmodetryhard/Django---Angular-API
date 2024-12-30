@@ -1,12 +1,32 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { MapComponent } from './map/map.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [MapComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'web-app';
+  showOperationalOnly: boolean = false;
+  selectedStation: any = null;
+  selectedBridge: any = null;
+  isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  toggleHideNonOperational(event: boolean): void {
+    this.showOperationalOnly = event;
+  }
+
+  onStationSelected(station: any): void {
+    this.selectedStation = station;
+  }
+
+  onBridgeSelected(bridge: any): void {
+    this.selectedBridge = bridge;
+  }
 }

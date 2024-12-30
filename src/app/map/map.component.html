@@ -1,0 +1,36 @@
+<div class="map-container">
+    <!-- Map Component -->
+    <div class="map-frame">
+        <div class="controls">
+            <button (click)="toggleOperationalFilter()">
+                {{ showOperationalOnly ? 'Show All Stations' : 'Show Operational Only' }}
+            </button>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <!-- Sidebar Component -->
+    <div class="sidebar" [class.open]="selectedStation">
+        <button class="close-btn" (click)="deselectStation()">×</button>
+
+        <h3>Station Details</h3>
+        <div *ngIf="selectedStation; else noSelection">
+            <p><strong>Name:</strong> {{ selectedStation.libelle_station }}</p>
+            <p><strong>Status:</strong> 
+                <span [ngClass]="{ 'operational': selectedStation.en_service, 'non-operational': !selectedStation.en_service }">
+                    {{ selectedStation.en_service ? 'Operational' : 'Non-operational' }}
+                </span>
+            </p>
+            <p><strong>Coordinates:</strong> {{ selectedStation.latitude_station }}, {{ selectedStation.longitude_station }}</p>
+
+            <!-- Graph Component -->
+            <div class="graph-container">
+                <app-graph *ngIf="selectedStation?.code_station" [stationId]="selectedStation.code_station"></app-graph>
+            </div>
+        </div>
+        
+        <ng-template #noSelection>
+            <p>Select a station to view details</p>
+        </ng-template>
+    </div>
+</div>
